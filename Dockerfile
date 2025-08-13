@@ -2,7 +2,10 @@ FROM python:3.10-slim
 
 ENV DEBIAN_FRONTEND=noninteractive
 
-# Install required system packages (ffmpeg + libs you listed)
+# Ensure python command is available from the very beginning
+RUN ln -sf /usr/local/bin/python3 /usr/local/bin/python
+
+# Install required system packages
 RUN apt-get update && apt-get install -y --no-install-recommends \
     ffmpeg git build-essential libsm6 libxext6 libgl1-mesa-glx \
     libgirepository1.0-dev gir1.2-gtk-3.0 pkg-config libgtk-3-dev \
@@ -20,15 +23,11 @@ WORKDIR /app
 COPY requirements.txt ./
 RUN pip install --no-cache-dir -r requirements.txt || true
 
-# Copy the rest of the application code
+# Copy the rest of the application
 COPY . /app
-
-# Ensure "python" command exists for compatibility
-RUN ln -sf $(command -v python3) /usr/local/bin/python
 
 # Expose the application port
 EXPOSE 5000
 ENV FLASK_APP=app.py
 
-# Default command
 CMD ["python", "app.py"]
