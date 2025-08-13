@@ -26,3 +26,6 @@ ENV FLASK_APP=app.py
 
 # Run the application
 CMD ["python", "app.py"]
+# Example fragment to add somewhere after python3 is installed
+# create a consistent python -> python3 symlink
+RUN ln -sf "$(command -v python3)" /usr/local/bin/python
