@@ -1,0 +1,15 @@
+# Python
+__pycache__/
+*.pyc
+
+# Node.js
+node_modules/
+
+# Environment variables
+.env
+
+# Downloaded videos
+videos/
+
+# Build artifacts
+dist/

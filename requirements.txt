@@ -1,0 +1,8 @@
+Flask
+requests
+yt-dlp
+youtube-transcript-api
+google-generativeai
+gunicorn
+python-dotenv
+rq
