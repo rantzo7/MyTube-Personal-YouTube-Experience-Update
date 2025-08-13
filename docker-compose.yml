@@ -1,36 +1,24 @@
-services:
-  redis:
-    image: redis:latest
-    ports:
-      - "6379:6379"
-    volumes:
-      - redis_data:/data
+web:
+  build: .
+  command: python3 app.py
+  ports:
+    - "5000:5000"
+  volumes:
+    - videos_data:/app/videos
+  depends_on:
+    - redis
+  environment:
+    - REDIS_HOST=redis
+    - REDIS_PORT=6379
 
-  web:
-    build: .
-    command: python3 app.py
-    ports:
-      - "5000:5000"
-    volumes:
-      - videos_data:/app/videos   # only mount videos
-    depends_on:
-      - redis
-    environment:
-      - REDIS_HOST=redis
-      - REDIS_PORT=6379
-
-  worker:
-    build: .
-    command: python3 worker.py
-    volumes:
-      - videos_data:/app/videos   # only mount videos
-    depends_on:
-      - redis
-      - web
-    environment:
-      - REDIS_HOST=redis
-      - REDIS_PORT=6379
-
-volumes:
-  redis_data:
-  videos_data:
+worker:
+  build: .
+  command: python3 worker.py
+  volumes:
+    - videos_data:/app/videos
+  depends_on:
+    - redis
+    - web
+  environment:
+    - REDIS_HOST=redis
+    - REDIS_PORT=6379
