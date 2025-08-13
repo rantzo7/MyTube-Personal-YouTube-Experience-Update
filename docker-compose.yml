@@ -12,8 +12,7 @@ services:
     ports:
       - "5000:5000"
     volumes:
-      - .:/app
-      - videos_data:/app/videos
+      - videos_data:/app/videos   # only mount videos
     depends_on:
       - redis
     environment:
@@ -24,8 +23,7 @@ services:
     build: .
     command: python3 worker.py
     volumes:
-      - .:/app
-      - videos_data:/app/videos
+      - videos_data:/app/videos   # only mount videos
     depends_on:
       - redis
       - web
